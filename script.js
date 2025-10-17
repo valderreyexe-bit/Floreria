@@ -1,28 +1,50 @@
-    document.getElementById('formReserva').addEventListener('submit', function (e) {
+    document.addEventListener('DOMContentLoaded', function () {
+    const toggleBtn = document.getElementById('toggleHorarios');
+    const contenido = document.getElementById('contenidoHorarios');
+
+    toggleBtn.addEventListener('click', function () {
+        contenido.classList.toggle('hidden');
+    });
+    });
+
+
+const form = document.getElementById('reservaForm');
+    const confirmacion = document.getElementById('confirmacionBox');
+
+    form.addEventListener('submit', function (e) {
     e.preventDefault();
 
-    const nombre = document.getElementById('nombre').value;
-    const fecha = document.getElementById('fecha').value;
-    const ramo = document.getElementById('ramo').value;
-    const mensaje = document.getElementById('mensaje').value;
+    // Oculta el formulario y muestra la confirmación
+    form.style.display = 'none';
+    confirmacion.style.display = 'block';
 
-    // WhatsApp personalizado
-    const texto = `Hola! Soy ${nombre} y quiero reservar el *${ramo}* para el día *${fecha}*. ${mensaje ? 'Mensaje: ' + mensaje : ''}`;
-    const urlWhatsApp = `https://wa.me/5492966611389?text=${encodeURIComponent(texto)}`;
-    window.open(urlWhatsApp, '_blank');
+    // Captura los datos del formulario
+    const nombre = form.nombre.value;
+    const cantidad = form.cantidad.value;
+    const horario = form.horario.value;
+    const contacto = form.contacto.value;
 
-    // Envío al Web App (registro invisible en Sheets)
-    const formData = new FormData();
-    formData.append('nombre', nombre);
-    formData.append('fecha', fecha);
-    formData.append('ramo', ramo);
-    formData.append('mensaje', mensaje);
-
-    fetch('https://script.google.com/macros/s/AKfycbxP5yOeX6ykBjsdVRdd57Ew4ziJe7PfbSqBjfsREsVit0QZnrjDcKaMQDWXRL6kTS1n8Q/exec', {
-        method: 'POST',
-        body: formData
+    // Opcional: enviar los datos a Google Sheets vía Apps Script
+    // fetch('https://script.google.com/macros/s/TU_SCRIPT_ID/exec', {
+    //   method: 'POST',
+    //   mode: 'no-cors',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify({
+    //     nombre,
+    //     cantidad,
+    //     horario,
+    //     contacto
+    //   })
+    // });
     });
+
+    document.getElementById("mostrarReserva").addEventListener("click", function () {
+    const formulario = document.getElementById("formularioReserva");
+    formulario.style.display = formulario.style.display === "none" ? "block" : "none";
     });
+
 
 
 
